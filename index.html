@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>武康路 Citywalk — Shanghai</title>
+    <style>
+      :root {
+        --ink: #f2e8da;
+        --dim: #b8a995;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { height: 100%; overflow: hidden; background: #181210; }
+      body { font-family: 'PingFang SC', 'Hiragino Sans GB', 'Helvetica Neue', sans-serif; }
+      #app, #app canvas { position: fixed; inset: 0; display: block; }
+
+      #hud { position: fixed; inset: 0; pointer-events: none; color: var(--ink); }
+      #loc {
+        position: absolute; left: 28px; bottom: 24px;
+        font-size: 15px; letter-spacing: 0.18em; color: var(--dim);
+        text-shadow: 0 1px 8px rgba(0,0,0,.7);
+      }
+      #loc strong { display: block; font-size: 22px; letter-spacing: 0.3em; color: var(--ink); font-weight: 500; }
+      #fps {
+        position: absolute; right: 16px; top: 14px; font-size: 12px;
+        color: var(--dim); font-variant-numeric: tabular-nums; display: none;
+      }
+      #crosshair {
+        position: absolute; left: 50%; top: 50%; width: 4px; height: 4px;
+        margin: -2px 0 0 -2px; border-radius: 50%;
+        background: rgba(242, 232, 218, 0.55); box-shadow: 0 0 4px rgba(0,0,0,.6);
+      }
+
+      #overlay {
+        position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+        background:
+          radial-gradient(120% 90% at 50% 110%, rgba(186, 98, 47, 0.28), transparent 60%),
+          linear-gradient(180deg, rgba(18, 14, 22, 0.92), rgba(24, 16, 12, 0.96));
+        transition: opacity .5s ease; z-index: 10;
+      }
+      #overlay.hidden { opacity: 0; pointer-events: none; }
+      .panel { text-align: center; color: var(--ink); padding: 32px 44px; max-width: 560px; }
+      .panel h1 {
+        font-size: 44px; font-weight: 500; letter-spacing: 0.22em; margin-bottom: 10px;
+      }
+      .panel .sub {
+        color: var(--dim); font-size: 14px; letter-spacing: 0.12em; margin-bottom: 30px;
+      }
+      .panel .keys {
+        color: var(--dim); font-size: 13px; letter-spacing: 0.08em; margin-bottom: 26px; line-height: 1.9;
+      }
+      .panel .keys b { color: var(--ink); font-weight: 600; border: 1px solid #5a4a3a; border-radius: 4px; padding: 1px 7px; margin: 0 2px; }
+      #start {
+        font: inherit; font-size: 15px; letter-spacing: 0.14em; color: var(--ink);
+        background: rgba(186, 98, 47, 0.22); border: 1px solid #a06a3f; border-radius: 6px;
+        padding: 12px 34px; cursor: pointer; transition: background .2s;
+      }
+      #start:hover:not(:disabled) { background: rgba(186, 98, 47, 0.42); }
+      #start:disabled { opacity: .45; cursor: wait; }
+      #loadmsg { margin-top: 16px; font-size: 12px; color: var(--dim); letter-spacing: 0.1em; min-height: 1em; }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="hud">
+      <div id="loc"><strong>武康路</strong>WUKANG ROAD · 上海</div>
+      <div id="fps"></div>
+      <div id="crosshair"></div>
+    </div>
+    <div id="overlay">
+      <div class="panel">
+        <h1>武康路</h1>
+        <p class="sub">A DUSK WALK · FORMER FRENCH CONCESSION · SHANGHAI</p>
+        <p class="keys">
+          <b>W A S D</b> 移动 walk &nbsp; <b>鼠标</b> 视角 look<br />
+          <b>Shift</b> 快走 stride &nbsp; <b>Esc</b> 暂停 pause &nbsp; <b>F</b> fps
+        </p>
+        <button id="start" disabled>载入中 · Loading…</button>
+        <p id="loadmsg"></p>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
